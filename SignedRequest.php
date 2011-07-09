@@ -110,10 +110,8 @@ class SignedRequest {
             $stringToSign .= $key . $value;
         }
 
-        $digest = hash_hmac('sha256', $stringToSign, $this->secret);
-        $signature = urlencode(base64_encode($digest));
-
-        return $signature;
+        // Note there is no need to base64 encode or url encode this content since it returns hexits by default
+        return hash_hmac('sha256', $stringToSign, $this->secret);
     }
 }
 
