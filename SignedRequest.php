@@ -59,6 +59,7 @@ class SignedRequest {
 
         if(isset($params['signature']) && isset($params['timestamp'])) {
             $signature = $params['signature'];
+            // remove the signature from the params array as it is not part of the calculation
             $params = array_diff_key($params, array('signature' => 1));
             $is_expired = ($params['timestamp'] + $this->ttl) < time();
             if(!$is_expired) {
@@ -87,6 +88,7 @@ class SignedRequest {
      * @TODO: add error handling and trigger warnings
      */
     public function validateCurrentRequest() {
+        // put the current query string into the passed by reference array $params
         parse_str($_SERVER['QUERY_STRING'], $params);
         return $this->validateRequest($params);
     }
@@ -139,7 +141,7 @@ class SignedRequest {
     }
 
     /**
-     * Change case of an associative arrays keys and values to lower case
+     * Change case of an associative array's keys and values to lower case
      *
      * @param array $params to change case of
      * @return array with all keys and value in lower case
