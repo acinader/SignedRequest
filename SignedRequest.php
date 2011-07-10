@@ -15,7 +15,8 @@
  *
  *   echo $signer->validateCurrentRequest() ? "valid\n" : "invalid";
  *
- * @copyright: Arthur Cinader 2011: Unlimited use is granted
+ * @copyright (C) 2011 Arthur Cinader Jr.
+ * @license see LICENSE.txt
  */
 class SignedRequest {
 
