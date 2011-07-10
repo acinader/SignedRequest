@@ -5,7 +5,7 @@ Built to enable server to server http requests that can be authenticated through
 Usage:
 
   $params = array('foo' => 'bar', 'Fid' => array('fig' => 'floo', 'soo' => 'tid'), 'nid' => 'nad');
-  echo "http://localhost/SignedRequest.php/?" . $signer->generateValidQueryString($params) . "\n";
+  echo "http://localhost/SignedRequest.php/?\" . $signer->generateValidQueryString($params) . "\n";
 
 To validate the current request:
 
