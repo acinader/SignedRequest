@@ -55,7 +55,7 @@ else if ($_POST) {
     $signed_params = $signedRequest->signRequest($params);
 
     // Get the query string that we'll use in the href
-    $query_string =  $signedRequest->generateValidQueryString(array_filter($params));
+    $query_string =  $signedRequest->generateValidQueryString($params);
     ?>
         <div>Here's what the signature looks like: <span><?= $signed_params['signature'] ?></span></div>
         <div><a href="<?= "?" . $query_string ?>">Click me to validate</a></div>
