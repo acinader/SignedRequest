@@ -1,0 +1,79 @@
+<style>
+    span { font-size:11px; }
+    div  { margin: 5px; }
+</style>
+
+<?
+/**
+ * This is a simple test of SignedRequest object
+ */
+
+require 'SignedRequest.php';
+
+$secret = 123; // obviously this is not a good choice ;)
+
+// make ttl really short (seconds) so we can see it time out
+$ttl = 30;
+
+$signedRequest = new SignedRequest($secret, $ttl);
+
+if (!($_GET || $_POST)) {
+    ?>
+        Enter some name value pairs to make up your query string to sign
+        <form method="post">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td><input type='text' name='name1' /></td>
+                <td><input type='text' name='value1' /></td>
+            </tr>
+            <tr>
+                <td><input type='text' name='name2' /></td>
+                <td><input type='text' name='value2' /></td>
+            </tr>
+            <tr>
+                <td><input type='text' name='name3' /></td>
+                <td><input type='text' name='value3' /></td>
+            </tr>
+            <tr>
+                <td colspan=2><input type='submit' value='submit'></td>
+            </tr>
+        </table>
+
+    <?
+}
+// Process the form and build a link that validates
+else if ($_POST) {
+
+    // Get the filled out fields only - very little validation here :)
+    $params = array_filter($_POST);
+
+    // Get signed params just so we can print it out
+    $signed_params = $signedRequest->signRequest($params);
+
+    // Get the query string that we'll use in the href
+    $query_string =  $signedRequest->generateValidQueryString(array_filter($params));
+    ?>
+        <div>Here's what the signature looks like: <span><?= $signed_params['signature'] ?></span></div>
+        <div><a href="<?= "?" . $query_string ?>">Click me to validate</a></div>
+        <div><a href=>Go Back</a></div>
+    <?
+}
+// validat the link that was just clicked
+else if($_GET) {
+    $is_valid = $signedRequest->validateCurrentRequest();
+    if($is_valid) {
+        ?>
+            <div>The current request is valid and was created with a shared secret</div>
+            <div>To make it invalid, change some query parameters and reload.</div>
+        <?
+    }
+    else {
+        ?>
+            <div>The current request is invalid.  <a href="<?= $_SERVER['PHP_SELF']; ?>">Try Again</a></div>
+        <?
+    }
+}
