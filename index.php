@@ -6,6 +6,17 @@
 <?
 /**
  * This is a simple test of SignedRequest object
+ *
+ *
+ * This page has three states:
+ *
+ *  1. No GET or POST in the request: Display a simple form to enter name value pairs into
+ *  2. POST vars means the form has just been submitted, so build a signed link for the user to click
+ *  3. GET vars mean that a link has been clicked with query params that should be signed, so validate
+ * 
+ * The interaction on this page should be enough to use this class for signing and validating requests.
+ * 
+ * Any input? Please let me know.
  */
 
 require 'SignedRequest.php';
