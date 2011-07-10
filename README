@@ -1,3 +1,12 @@
-Seems like every time I want to do something server to server with a new site, we do some form of signed request.
+A General purpose request signer and validator object.
 
-Just whipped up a general purpose one as a hello world of sorts for git.  Would love to use and maintain it, so feature requests and bug reports welcome!
+Built to enable server to server http requests that can be authenticated through the use of a shared secret.
+
+Usage:
+
+  $params = array('foo' => 'bar', 'Fid' => array('fig' => 'floo', 'soo' => 'tid'), 'nid' => 'nad');
+  echo "http://localhost/SignedRequest.php/?" . $signer->generateValidQueryString($params) . "\n";
+
+To validate the current request:
+
+  echo $signer->validateCurrentRequest() ? "valid\n" : "invalid";
