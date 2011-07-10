@@ -16,7 +16,7 @@
  *   echo $signer->validateCurrentRequest() ? "valid\n" : "invalid";
  *
  * @copyright (C) 2011 Arthur Cinader Jr.
- * @license see LICENSE.txt
+ * @license see LICENSE
  */
 class SignedRequest {
 
