@@ -39,7 +39,7 @@ if (!($_GET || $_POST)) {
                 <td><input type='text' name='value3' /></td>
             </tr>
             <tr>
-                <td colspan=2><input type='submit' value='submit'></td>
+                <td colspan=2><input type='submit' value='submit' /></td>
             </tr>
         </table>
 
