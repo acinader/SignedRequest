@@ -131,7 +131,7 @@ class SignedRequest {
             $this->hash_algorithm = $hash_algorithm;
         }
         else {
-            trigger_error("Invalid hash algorithm specified: {$hash_algorithm}.", E_USER_ERROR);
+            throw new Exception("Invalid hash algorithm specified: {$hash_algorithm}.");
         }
     }
 
