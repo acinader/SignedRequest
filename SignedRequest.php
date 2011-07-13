@@ -3,7 +3,7 @@
 /**
  * A General purpose request signer and validator object.
  *
- * Built to enable server to server http requsts that can be authenticated through the use
+ * Built to enable server to server http requests that can be authenticated through the use
  * of a shared secret.
  *
  * Usage:
@@ -35,6 +35,17 @@ class SignedRequest {
      */
     private $ttl;
 
+    /**
+     * The hashing algorithm to use for the signature. Valid algorithms can be
+     * found by running "print_r(hash_algos())"
+     *
+     * http://www.php.net/manual/en/function.hash-algos.php
+     *
+     * @access private
+     * @var string
+     */
+    private $hash_algorithm;
+
 
     /**
      * Sign a request to allow for authentication by the recipient
@@ -52,7 +63,7 @@ class SignedRequest {
      * Validate an array of parameters
      *
      * @param array $params name value pairs to validate
-     * @return boolean indicating if the params are valid and received withing the ttl
+     * @return boolean indicating if the params are valid and received within the ttl
      */
     public function validateRequest($params) {
         $is_valid = false;
@@ -68,12 +79,12 @@ class SignedRequest {
                     $is_valid = true;
                 }
                 else {
-                    trigger_error("request signature match failed", E_USER_WARNING);
+                    trigger_error("Request signature match failed", E_USER_WARNING);
                 }
 
             }
             else {
-                trigger_error("request is expired", E_USER_WARNING);
+                trigger_error("Request is expired", E_USER_WARNING);
             }
         }
 
@@ -81,10 +92,10 @@ class SignedRequest {
     }
 
     /**
-     * Convenience function to validate the curretly active request
+     * Convenience function to validate the currently active request
      *
      * @return boolean indicating if the current request can be authenticated and is received
-     *      withing the ttl
+     *      within the ttl
      * @TODO: add error handling and trigger warnings
      */
     public function validateCurrentRequest() {
@@ -108,12 +119,20 @@ class SignedRequest {
     /**
      * Create a SignedRequest object
      *
-     * @param string $secret shared secret to use in signging requests
+     * @param string $secret shared secret to use in signing requests
      * @param int $ttl the time to live to a requests (Default 3600 seconds)
      */
-    function __construct($secret, $ttl = 3600) {
+    function __construct($secret, $ttl = 3600, $hash_algorithm = 'sha256') {
         $this->secret = $secret;
         $this->ttl = $ttl;
+
+        // Validate hash algorithm
+        if (in_array($hash_algorithm, hash_algos())) {
+            $this->hash_algorithm = $hash_algorithm;
+        }
+        else {
+            throw new Exception("Invalid hash algorithm specified: {$hash_algorithm}.");
+        }
     }
 
     /**
@@ -177,6 +196,6 @@ class SignedRequest {
         }
 
         // Note there is no need to base64 encode or url encode this content since it returns hexits by default
-        return hash_hmac('sha256', $stringToSign, $this->secret);
+        return hash_hmac($this->hash_algorithm, $stringToSign, $this->secret);
     }
 }
