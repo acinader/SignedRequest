@@ -121,6 +121,9 @@ class SignedRequest {
      *
      * @param string $secret shared secret to use in signing requests
      * @param int $ttl the time to live to a requests (Default 3600 seconds)
+     * @param string $hash_algorithm (default 'sha256')
+     * @thorws Exception when instantiated with an invalid $hash_algorithm
+     * @see http://www.php.net/manual/en/function.hash-algos.php
      */
     function __construct($secret, $ttl = 3600, $hash_algorithm = 'sha256') {
         $this->secret = $secret;
