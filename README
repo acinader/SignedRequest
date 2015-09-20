@@ -9,4 +9,4 @@ Usage:
 
 To validate the current request:
 
-  echo $signer->validateCurrentRequest() ? "valid\n" : "invalid";
+  echo $signer->validateCurrentRequest() ? "valid\n" : "invalid\n";
