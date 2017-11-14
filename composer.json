@@ -1,0 +1,17 @@
+{
+    "name": "acinader/signed-request",
+    "description": "Simple request signing library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arthur Cinader",
+            "email": "acinader@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "Acinader\\": "src/"}
+    }
+}

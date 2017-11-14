@@ -3,7 +3,7 @@
     div  { margin: 5px; }
 </style>
 
-<?
+<?php
 /**
  * This is a simple test of SignedRequest object
  *
@@ -18,11 +18,11 @@
  *
  * Any input? Please let me know.
  */
+require './vendor/autoload.php';
 
-require 'SignedRequest.php';
+use Acinader\SignedRequest;
 
 $secret = 123; // obviously this is not a good choice ;)
-
 // make ttl really short (seconds) so we can see it time out
 $ttl = 30;
 
@@ -54,7 +54,7 @@ if (!($_GET || $_POST)) {
             </tr>
         </table>
 
-    <?
+    <?php
 }
 // Process the form and build a link that validates
 else if ($_POST) {
@@ -71,20 +71,20 @@ else if ($_POST) {
         <div>Here's what the signature looks like: <span><?= $signed_params['signature'] ?></span></div>
         <div><a href="<?= "?" . $query_string ?>">Click me to validate</a></div>
         <div><a href=>Go Back</a></div>
-    <?
+    <?php
 }
-// validat the link that was just clicked
+// validate the link that was just clicked
 else if($_GET) {
     $is_valid = $signedRequest->validateCurrentRequest();
     if($is_valid) {
         ?>
             <div>The current request is valid and was created with a shared secret</div>
             <div>To make it invalid, change some query parameters and reload.</div>
-        <?
+        <?php
     }
     else {
         ?>
             <div>The current request is invalid.  <a href="<?= $_SERVER['PHP_SELF']; ?>">Try Again</a></div>
-        <?
+        <?php
     }
 }

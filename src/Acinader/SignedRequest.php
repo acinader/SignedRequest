@@ -1,5 +1,6 @@
-<?
+<?php
 
+namespace Acinader;
 /**
  * A General purpose request signer and validator object.
  *
@@ -185,6 +186,8 @@ class SignedRequest {
      * @return string signature of the supplied array
      */
     protected function createSignature($params) {
+        $stringToSign = '';
+
         // flatten any sub arrays
         $params = $this->flatten($params);
 
